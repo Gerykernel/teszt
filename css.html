@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webfejlesztés A-Z - CSS</title>
+    <style>
+        /* A stílusok megegyeznek a konzisztens UI érdekében */
+        :root {
+            --bg-color: #0f172a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 110px 20px 40px;
+            line-height: 1.6;
+        }
+
+        /* DYNAMIC ISLAND NAVBAR */
+        .dynamic-island-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+        }
+
+        .dynamic-island {
+            background-color: #000;
+            width: 160px;
+            height: 44px;
+            border-radius: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .dynamic-island.expanded {
+            width: 340px;
+            height: 80px;
+            border-radius: 30px;
+        }
+
+        .island-pill-text {
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: opacity 0.2s;
+            letter-spacing: 0.5px;
+        }
+
+        .island-menu {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 0 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .dynamic-island.expanded .island-pill-text {
+            opacity: 0;
+        }
+
+        .dynamic-island.expanded .island-menu {
+            opacity: 1;
+            pointer-events: auto;
+            transition-delay: 0.15s;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: color 0.3s, transform 0.2s;
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+
+        .nav-link:hover {
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        .nav-link.active {
+            color: var(--accent);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* GLASSMORPHISM TARTALOM */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 { font-size: 2.5rem; margin-bottom: 1.5rem; color: #fff; text-align: center; }
+        h2 { margin-bottom: 1rem; color: var(--accent); font-size: 1.8rem; }
+        h3 { margin: 1.5rem 0 0.5rem; color: #e2e8f0; }
+        p { margin-bottom: 1rem; color: var(--text-muted); }
+        ul { margin-left: 20px; margin-bottom: 1rem; color: var(--text-muted); }
+        li { margin-bottom: 0.5rem; }
+        
+        code {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            font-family: 'Courier New', Courier, monospace;
+            color: #fca5a5;
+            font-size: 0.9rem;
+        }
+
+        pre {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 1.2rem;
+            border-radius: 14px;
+            overflow-x: auto;
+            border: 1px solid rgba(255,255,255,0.05);
+            margin: 1rem 0;
+        }
+
+        pre code { background: none; color: #a7f3d0; padding: 0; }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+        @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <div class="dynamic-island-container">
+        <div class="dynamic-island" id="navIsland">
+            <div class="island-pill-text">Navigáció 🏝️</div>
+            <nav class="island-menu">
+                <a href="index.html" class="nav-link">HTML5</a>
+                <a href="css.html" class="nav-link active">CSS3</a>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container">
+        <header style="margin-bottom: 2.5rem;">
+            <h1>Formázás és Elrendezés</h1>
+        </header>
+
+        <section class="glass-card">
+            <h2>CSS3 stíluslapok A-Z-ig</h2>
+            <p>A CSS határozza meg a HTML elemek vizuális megjelenését, elrendezését, és felelős a reszponzív (mobilbarát) működésért is.</p>
+
+            <div class="grid-2">
+                <div>
+                    <h3>Szelektorok és Prioritás</h3>
+                    <p>Az elemeket osztályok (`class`), egyedi azonosítók (`id`) vagy maguk a tagek alapján formázhatjuk:</p>
+                    <pre><code>/* Class szelektor */
+.nav-link { color: #94a3b8; }
+
+/* ID szelektor */
+#navIsland { background: #000; }
+
+/* Összetett szabályok */
+.nav-link.active { color: #38bdf8; }</code></pre>
+                </div>
+                <div>
+                    <h3>A Doboz Modell</h3>
+                    <p>Minden vizuális elem méretét négy réteg határozza meg:</p>
+                    <ul>
+                        <li><strong>Content:</strong> A tényleges tartalom mérete.</li>
+                        <li><strong>Padding:</strong> Belső margó a tartalom és a keret között.</li>
+                        <li><strong>Border:</strong> Az elemet körülvevő keret vastagsága.</li>
+                        <li><strong>Margin:</strong> Külső margó más elemekhez képest.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Modern Elrendezési Technológiák</h3>
+            <p>Felejtsd el a régi `float` és `table` alapú elrendezéseket. A modern frontend fejlesztés két pillére:</p>
+            <p><strong>Flexbox (Flexible Box Layout):</strong> Egydimenziós elrendezésekhez (sorok vagy oszlopok). Kiválóan alkalmas elemek függőleges és vízszintes középre igazítására, valamint rugalmas elosztására. Ezt használtuk a Dynamic Island belsejében a linkek elosztásához.</p>
+            <p><strong>CSS Grid Layout:</strong> Kétdimenziós rácsrendszer. Egyszerre kezeli a sorokat és az oszlopokat, így bonyolult magazin-szerű vagy dashboard elrendezések készíthetők vele minimális kóddal (mint a fenti kétoszlopos infóblokk).</p>
+        </section>
+    </div>
+
+    <script>
+        const island = document.getElementById('navIsland');
+        island.addEventListener('click', (e) => {
+            if(e.target.classList.contains('nav-link')) return;
+            island.classList.toggle('expanded');
+        });
+    </script>
+</body>
+</html>
