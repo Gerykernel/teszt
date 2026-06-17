@@ -5,30 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Webfejlesztés A-Z - HTML</title>
     <style>
-        /* GLOBÁLIS MODERNEK ÉS HÁTTÉR */
         :root {
             --bg-color: #0f172a;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --accent: #38bdf8;
+            --card-bg: rgba(255, 255, 255, 0.03);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
         body {
             background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
             color: var(--text-main);
             min-height: 100vh;
-            padding: 110px 20px 40px;
+            padding: 110px 20px 60px;
             line-height: 1.6;
         }
 
-        /* DYNAMIC ISLAND NAVBAR */
+        /* --- DYNAMIC ISLAND (HOVER ALAPON) --- */
         .dynamic-island-container {
             position: fixed;
             top: 20px;
@@ -42,7 +42,6 @@
             width: 160px;
             height: 44px;
             border-radius: 24px;
-            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -52,23 +51,22 @@
             position: relative;
         }
 
-        /* Kinyitott állapot mérete */
-        .dynamic-island.expanded {
+        /* Hover hatására kinyílik */
+        .dynamic-island:hover {
             width: 340px;
             height: 80px;
             border-radius: 30px;
         }
 
-        /* Alap állapot felirata */
         .island-pill-text {
             color: #fff;
             font-size: 0.9rem;
             font-weight: 600;
             transition: opacity 0.2s;
             letter-spacing: 0.5px;
+            pointer-events: none;
         }
 
-        /* Kinyitott menü tartalom */
         .island-menu {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -81,17 +79,17 @@
             transition: opacity 0.3s ease;
         }
 
-        .dynamic-island.expanded .island-pill-text {
+        /* Tartalom cseréje hoverkor */
+        .dynamic-island:hover .island-pill-text {
             opacity: 0;
         }
 
-        .dynamic-island.expanded .island-menu {
+        .dynamic-island:hover .island-menu {
             opacity: 1;
             pointer-events: auto;
             transition-delay: 0.15s;
         }
 
-        /* Navigációs linkek a szigeten belül */
         .nav-link {
             color: var(--text-muted);
             text-decoration: none;
@@ -102,24 +100,14 @@
             border-radius: 20px;
         }
 
-        .nav-link:hover {
-            color: #fff;
-            transform: scale(1.05);
-        }
+        .nav-link:hover { color: #fff; transform: scale(1.05); }
+        .nav-link.active { color: var(--accent); background: rgba(255, 255, 255, 0.1); }
 
-        .nav-link.active {
-            color: var(--accent);
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        /* GLASSMORPHISM TARTALOM */
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
+        /* --- TARTALOM STÍLUSOK --- */
+        .container { max-width: 900px; margin: 0 auto; }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.02);
+            background: var(--card-bg);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -130,45 +118,25 @@
         }
 
         h1 { font-size: 2.5rem; margin-bottom: 1.5rem; color: #fff; text-align: center; }
-        h2 { margin-bottom: 1rem; color: var(--accent); font-size: 1.8rem; }
-        h3 { margin: 1.5rem 0 0.5rem; color: #e2e8f0; }
+        h2 { margin-bottom: 1rem; color: var(--accent); font-size: 1.8rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
+        h3 { margin: 1.5rem 0 0.5rem; color: #e2e8f0; font-size: 1.3rem; }
         p { margin-bottom: 1rem; color: var(--text-muted); }
         ul { margin-left: 20px; margin-bottom: 1rem; color: var(--text-muted); }
         li { margin-bottom: 0.5rem; }
         
-        code {
-            background: rgba(0, 0, 0, 0.4);
-            padding: 0.2rem 0.5rem;
-            border-radius: 6px;
-            font-family: 'Courier New', Courier, monospace;
-            color: #fca5a5;
-            font-size: 0.9rem;
-        }
-
-        pre {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 1.2rem;
-            border-radius: 14px;
-            overflow-x: auto;
-            border: 1px solid rgba(255,255,255,0.05);
-            margin: 1rem 0;
-        }
-
+        code { background: rgba(0,0,0,0.4); padding: 0.2rem 0.5rem; border-radius: 6px; font-family: monospace; color: #fca5a5; }
+        pre { background: rgba(0,0,0,0.5); padding: 1.2rem; border-radius: 14px; overflow-x: auto; border: 1px solid rgba(255,255,255,0.05); margin: 1rem 0; }
         pre code { background: none; color: #a7f3d0; padding: 0; }
 
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-        }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
         @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
     <div class="dynamic-island-container">
-        <div class="dynamic-island" id="navIsland">
-            <div class="island-pill-text">Navigáció 🏝️</div>
+        <div class="dynamic-island">
+            <div class="island-pill-text">Menü (Húzd ide)</div>
             <nav class="island-menu">
                 <a href="index.html" class="nav-link active">HTML5</a>
                 <a href="css.html" class="nav-link">CSS3</a>
@@ -178,58 +146,81 @@
 
     <div class="container">
         <header style="margin-bottom: 2.5rem;">
-            <h1>Struktúra és Szemantika</h1>
+            <h1>A HTML5 Mesterkurzus</h1>
+            <p style="text-align: center;">Minden, amit a weboldalak vázáról tudnod kell.</p>
         </header>
 
         <section class="glass-card">
-            <h2>HTML5 alapok A-Z-ig</h2>
-            <p>A HTML határozza meg a weboldal képernyőn megjelenő elemeinek hierarchiáját és logikai felépítését.</p>
-
+            <h2>1. Alapok és Szemantika</h2>
+            <p>A HTML nem programozási nyelv, hanem jelölőnyelv (Markup Language). A böngésző ez alapján tudja, hogy mi a szöveg, mi a kép, és mi a navigáció.</p>
             <div class="grid-2">
                 <div>
-                    <h3>Dokumentum felépítés</h3>
-                    <p>Minden modern oldalnak tartalmaznia kell a metaadatokat és a karakterkódolást:</p>
-                    <pre><code>&lt;!DOCTYPE html&gt;
-&lt;html lang="hu"&gt;
-&lt;head&gt;
-    &lt;meta charset="UTF-8"&gt;
-    &lt;title&gt;Dokumentum&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;!-- tartalom --&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre>
+                    <h3>Szemantikus tagek</h3>
+                    <p>Ezek az elemek mondják meg a gépnek, hogy <strong>mi a tartalom értelme</strong>:</p>
+                    <ul>
+                        <li><code>&lt;header&gt;</code> - Fejléc</li>
+                        <li><code>&lt;nav&gt;</code> - Navigációs blokk</li>
+                        <li><code>&lt;main&gt;</code> - Fő tartalom</li>
+                        <li><code>&lt;article&gt;</code> - Önálló bejegyzés</li>
+                        <li><code>&lt;footer&gt;</code> - Lábléc</li>
+                    </ul>
                 </div>
                 <div>
-                    <h3>Gyakori tagek</h3>
+                    <h3>Szövegformázás</h3>
                     <ul>
-                        <li><code>&lt;h1&gt;</code> - Legfelsőbb szintű címsor (oldalanként szigorúan egy ajánlott).</li>
-                        <li><code>&lt;p&gt;</code> - Szöveges bekezdések tárolására.</li>
-                        <li><code>&lt;a&gt;</code> - Hivatkozások <code>href</code> attribútummal.</li>
-                        <li><code>&lt;div&gt;</code> - Általános blokkszintű konténer formázásokhoz.</li>
+                        <li><code>&lt;h1&gt;</code>-től <code>&lt;h6&gt;</code>-ig - Címsorok</li>
+                        <li><code>&lt;strong&gt;</code> - Fontos (félkövér) szöveg</li>
+                        <li><code>&lt;em&gt;</code> - Kiemelt (dőlt) szöveg</li>
+                        <li><code>&lt;br&gt;</code> - Sortörés</li>
                     </ul>
                 </div>
             </div>
+        </section>
 
-            <h3>Szemantikus felépítés</h3>
-            <p>A modern keresőmotorok és akadálymentesítő szoftverek elvárják a tiszta struktúrát. A div-ek túlhasználata helyett az alábbi elemeket alkalmazzuk:</p>
-            <ul>
-                <li><code>&lt;header&gt;</code>: Az oldal vagy egy szekció fejléce (pl. logó, menü helye).</li>
-                <li><code>&lt;nav&gt;</code>: Navigációs linkeket összefogó blokk (mint a fenti Dynamic Island).</li>
-                <li><code>&lt;main&gt;</code>: Az oldal egyedi, elsődleges tartalmi része.</li>
-                <li><code>&lt;section&gt;</code>: Tematikusan összetartozó tartalomcsoportok.</li>
-                <li><code>&lt;footer&gt;</code>: Az oldal lábléce impresszummal, jogi szövegekkel.</li>
-            </ul>
+        <section class="glass-card">
+            <h2>2. Űrlapok (Forms)</h2>
+            <p>Az űrlapok segítségével tudsz adatokat bekérni a felhasználótól. Bejelentkezés, regisztráció, vagy keresés – mind űrlapokon alapszik.</p>
+            <pre><code>&lt;form action="/login" method="POST"&gt;
+    &lt;label for="email"&gt;Email cím:&lt;/label&gt;
+    &lt;input type="email" id="email" name="email" required&gt;
+
+    &lt;label for="password"&gt;Jelszó:&lt;/label&gt;
+    &lt;input type="password" id="password" name="password" required&gt;
+
+    &lt;button type="submit"&gt;Bejelentkezés&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+            <p><strong>Gyakori input típusok:</strong> <code>text</code>, <code>password</code>, <code>email</code>, <code>number</code>, <code>checkbox</code>, <code>radio</code>, <code>date</code>.</p>
+        </section>
+
+        <section class="glass-card">
+            <h2>3. Média és Táblázatok</h2>
+            <div class="grid-2">
+                <div>
+                    <h3>Média elemek</h3>
+                    <p>Képek, videók és hangok beillesztése:</p>
+                    <ul>
+                        <li><code>&lt;img src="kep.jpg" alt="Kép leírása"&gt;</code></li>
+                        <li><code>&lt;video src="film.mp4" controls&gt;&lt;/video&gt;</code></li>
+                        <li><code>&lt;audio src="zene.mp3" controls&gt;&lt;/audio&gt;</code></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Táblázatok</h3>
+                    <p>Adatok táblázatos megjelenítése:</p>
+                    <pre><code>&lt;table&gt;
+  &lt;tr&gt; &lt;!-- Sor --&gt;
+    &lt;th&gt;Név&lt;/th&gt; &lt;!-- Fejléc --&gt;
+    &lt;th&gt;Kor&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Gábor&lt;/td&gt; &lt;!-- Cella --&gt;
+    &lt;td&gt;25&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+                </div>
+            </div>
         </section>
     </div>
 
-    <script>
-        const island = document.getElementById('navIsland');
-        island.addEventListener('click', (e) => {
-            // Megakadályozzuk, hogy a linkekre kattintás bezárja a szigetet a váltás előtt
-            if(e.target.classList.contains('nav-link')) return;
-            island.classList.toggle('expanded');
-        });
-    </script>
 </body>
 </html>
