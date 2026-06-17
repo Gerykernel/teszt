@@ -3,168 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Webfejlesztés A-Z - CSS</title>
+    <title>Webfejlesztés - CSS</title>
     <style>
-        /* A stílusok megegyeznek a konzisztens UI érdekében */
+        /* A stílusok ugyanazok, mint az index.html-ben */
         :root {
             --bg-color: #0f172a;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --accent: #38bdf8;
+            --card-bg: rgba(255, 255, 255, 0.03);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
 
         body {
             background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
             color: var(--text-main);
             min-height: 100vh;
-            padding: 110px 20px 40px;
+            padding: 110px 20px 60px;
             line-height: 1.6;
         }
 
-        /* DYNAMIC ISLAND NAVBAR */
-        .dynamic-island-container {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-        }
+        /* --- DYNAMIC ISLAND (HOVER ALAPON) --- */
+        .dynamic-island-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; }
 
         .dynamic-island {
-            background-color: #000;
-            width: 160px;
-            height: 44px;
-            border-radius: 24px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background-color: #000; width: 160px; height: 44px; border-radius: 24px;
+            display: flex; align-items: center; justify-content: center;
             transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-            overflow: hidden;
-            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6); overflow: hidden; position: relative;
         }
 
-        .dynamic-island.expanded {
-            width: 340px;
-            height: 80px;
-            border-radius: 30px;
-        }
+        .dynamic-island:hover { width: 340px; height: 80px; border-radius: 30px; }
 
-        .island-pill-text {
-            color: #fff;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: opacity 0.2s;
-            letter-spacing: 0.5px;
-        }
+        .island-pill-text { color: #fff; font-size: 0.9rem; font-weight: 600; transition: opacity 0.2s; letter-spacing: 0.5px; pointer-events: none; }
+        .island-menu { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: space-around; padding: 0 20px; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
 
-        .island-menu {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            padding: 0 20px;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
+        .dynamic-island:hover .island-pill-text { opacity: 0; }
+        .dynamic-island:hover .island-menu { opacity: 1; pointer-events: auto; transition-delay: 0.15s; }
 
-        .dynamic-island.expanded .island-pill-text {
-            opacity: 0;
-        }
+        .nav-link { color: var(--text-muted); text-decoration: none; font-size: 1rem; font-weight: 600; transition: color 0.3s, transform 0.2s; padding: 8px 16px; border-radius: 20px; }
+        .nav-link:hover { color: #fff; transform: scale(1.05); }
+        .nav-link.active { color: var(--accent); background: rgba(255, 255, 255, 0.1); }
 
-        .dynamic-island.expanded .island-menu {
-            opacity: 1;
-            pointer-events: auto;
-            transition-delay: 0.15s;
-        }
-
-        .nav-link {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: color 0.3s, transform 0.2s;
-            padding: 8px 16px;
-            border-radius: 20px;
-        }
-
-        .nav-link:hover {
-            color: #fff;
-            transform: scale(1.05);
-        }
-
-        .nav-link.active {
-            color: var(--accent);
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        /* GLASSMORPHISM TARTALOM */
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 24px;
-            padding: 2.5rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-        }
+        /* --- TARTALOM STÍLUSOK --- */
+        .container { max-width: 900px; margin: 0 auto; }
+        .glass-card { background: var(--card-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 24px; padding: 2.5rem; margin-bottom: 2rem; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); }
 
         h1 { font-size: 2.5rem; margin-bottom: 1.5rem; color: #fff; text-align: center; }
-        h2 { margin-bottom: 1rem; color: var(--accent); font-size: 1.8rem; }
-        h3 { margin: 1.5rem 0 0.5rem; color: #e2e8f0; }
+        h2 { margin-bottom: 1rem; color: var(--accent); font-size: 1.8rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
+        h3 { margin: 1.5rem 0 0.5rem; color: #e2e8f0; font-size: 1.3rem; }
         p { margin-bottom: 1rem; color: var(--text-muted); }
         ul { margin-left: 20px; margin-bottom: 1rem; color: var(--text-muted); }
         li { margin-bottom: 0.5rem; }
         
-        code {
-            background: rgba(0, 0, 0, 0.4);
-            padding: 0.2rem 0.5rem;
-            border-radius: 6px;
-            font-family: 'Courier New', Courier, monospace;
-            color: #fca5a5;
-            font-size: 0.9rem;
-        }
-
-        pre {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 1.2rem;
-            border-radius: 14px;
-            overflow-x: auto;
-            border: 1px solid rgba(255,255,255,0.05);
-            margin: 1rem 0;
-        }
-
+        code { background: rgba(0,0,0,0.4); padding: 0.2rem 0.5rem; border-radius: 6px; font-family: monospace; color: #fca5a5; }
+        pre { background: rgba(0,0,0,0.5); padding: 1.2rem; border-radius: 14px; overflow-x: auto; border: 1px solid rgba(255,255,255,0.05); margin: 1rem 0; }
         pre code { background: none; color: #a7f3d0; padding: 0; }
 
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-        }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
         @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
     <div class="dynamic-island-container">
-        <div class="dynamic-island" id="navIsland">
-            <div class="island-pill-text">Navigáció 🏝️</div>
+        <div class="dynamic-island">
+            <div class="island-pill-text">Menü (Húzd ide)</div>
             <nav class="island-menu">
                 <a href="index.html" class="nav-link">HTML5</a>
                 <a href="css.html" class="nav-link active">CSS3</a>
@@ -174,51 +79,66 @@
 
     <div class="container">
         <header style="margin-bottom: 2.5rem;">
-            <h1>Formázás és Elrendezés</h1>
+            <h1>A CSS3 Mesterkurzus</h1>
+            <p style="text-align: center;">Animációk, reszponzivitás és modern vizuális elemek.</p>
         </header>
 
         <section class="glass-card">
-            <h2>CSS3 stíluslapok A-Z-ig</h2>
-            <p>A CSS határozza meg a HTML elemek vizuális megjelenését, elrendezését, és felelős a reszponzív (mobilbarát) működésért is.</p>
-
+            <h2>1. Animációk és Átmenetek</h2>
+            <p>A weboldalak interaktivitását a mozgások adják. Két fő módja van az animálásnak CSS-ben:</p>
             <div class="grid-2">
                 <div>
-                    <h3>Szelektorok és Prioritás</h3>
-                    <p>Az elemeket osztályok (`class`), egyedi azonosítók (`id`) vagy maguk a tagek alapján formázhatjuk:</p>
-                    <pre><code>/* Class szelektor */
-.nav-link { color: #94a3b8; }
-
-/* ID szelektor */
-#navIsland { background: #000; }
-
-/* Összetett szabályok */
-.nav-link.active { color: #38bdf8; }</code></pre>
+                    <h3>Transitions (Átmenetek)</h3>
+                    <p>A transition akkor lép életbe, ha egy elem állapota megváltozik (pl. rávisszük az egeret). A fenti Dynamic Island is ezt használja.</p>
+                    <pre><code>.button {
+    background: blue;
+    transition: background 0.3s ease;
+}
+.button:hover {
+    background: red;
+}</code></pre>
                 </div>
                 <div>
-                    <h3>A Doboz Modell</h3>
-                    <p>Minden vizuális elem méretét négy réteg határozza meg:</p>
-                    <ul>
-                        <li><strong>Content:</strong> A tényleges tartalom mérete.</li>
-                        <li><strong>Padding:</strong> Belső margó a tartalom és a keret között.</li>
-                        <li><strong>Border:</strong> Az elemet körülvevő keret vastagsága.</li>
-                        <li><strong>Margin:</strong> Külső margó más elemekhez képest.</li>
-                    </ul>
+                    <h3>Keyframes (Kulcskeretek)</h3>
+                    <p>Komplex, több lépésből álló animációkhoz használjuk, amelyek maguktól is lefuthatnak.</p>
+                    <pre><code>@keyframes lebeges {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+.karty { animation: lebeges 2s infinite; }</code></pre>
                 </div>
             </div>
+        </section>
 
-            <h3>Modern Elrendezési Technológiák</h3>
-            <p>Felejtsd el a régi `float` és `table` alapú elrendezéseket. A modern frontend fejlesztés két pillére:</p>
-            <p><strong>Flexbox (Flexible Box Layout):</strong> Egydimenziós elrendezésekhez (sorok vagy oszlopok). Kiválóan alkalmas elemek függőleges és vízszintes középre igazítására, valamint rugalmas elosztására. Ezt használtuk a Dynamic Island belsejében a linkek elosztásához.</p>
-            <p><strong>CSS Grid Layout:</strong> Kétdimenziós rácsrendszer. Egyszerre kezeli a sorokat és az oszlopokat, így bonyolult magazin-szerű vagy dashboard elrendezések készíthetők vele minimális kóddal (mint a fenti kétoszlopos infóblokk).</p>
+        <section class="glass-card">
+            <h2>2. Reszponzív Webdesign (Mobilnézet)</h2>
+            <p>Ma már elengedhetetlen, hogy egy weboldal telefonon is jól nézzen ki. Ehhez a **Media Query**-ket használjuk.</p>
+            <pre><code>/* Asztali nézet (alapértelmezett) */
+.container {
+    width: 800px;
+}
+
+/* Ha a képernyő szélessége kisebb, mint 768px (telefon/tablet) */
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+        padding: 10px;
+    }
+}</code></pre>
+            <p><em>Pro tipp:</em> Mindig "Mobile First" (mobilra tervezünk először) elv szerint érdemes dolgozni!</p>
+        </section>
+
+        <section class="glass-card">
+            <h2>3. Pseudo-osztályok és Elemek</h2>
+            <p>A pseudo-osztályok egy elem speciális állapotát írják le (anélkül, hogy a HTML-t módosítani kéne).</p>
+            <ul>
+                <li><code>:hover</code> - Amikor az egér az elem fölött van. Ezzel oldottuk meg a Dynamic Island nyílását!</li>
+                <li><code>:nth-child(odd)</code> - Kiválasztja minden páratlan elemet (pl. táblázat sorainak színezésére hasznos).</li>
+                <li><code>::before</code> és <code>::after</code> - Extra tartalmat tudsz "befűzni" egy elem elé vagy mögé, tisztán CSS-ből. Gyakran használják ikonokhoz vagy design díszítőelemekhez.</li>
+            </ul>
         </section>
     </div>
 
-    <script>
-        const island = document.getElementById('navIsland');
-        island.addEventListener('click', (e) => {
-            if(e.target.classList.contains('nav-link')) return;
-            island.classList.toggle('expanded');
-        });
-    </script>
 </body>
 </html>
